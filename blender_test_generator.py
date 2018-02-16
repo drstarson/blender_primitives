@@ -67,10 +67,16 @@ def setup_render(scene):
 def setup_compositing(scene):
     """Setup compositing nodes."""
 
+    scene.use_nodes = True
+
 
 if __name__ == "__main__":
 
     filepath = path('assets', 'objects', 'pumpkin', 'pumpkin.obj')
+    scene = bpy.context.scene
+
+    setup_render(scene)
+    setup_compositing(scene)
 
     try:
         pumpkin = Asset(filepath)
