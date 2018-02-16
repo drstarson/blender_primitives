@@ -47,7 +47,9 @@ def setup_scene(scene):
 
 def setup_render(scene):
     """Setup rendering settings."""
-    pass
+
+    scene.render.engine = 'CYCLES'
+    scene.render.resolution_percentage = 100
 
 
 def setup_compositing(scene):
