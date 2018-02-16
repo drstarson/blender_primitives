@@ -54,6 +54,9 @@ class Asset():
         principled = self.mat_nodes.new('ShaderNodeBsdfPrincipled')
         principled.location = location
 
+        # NOTE: Hardcoded, but this should come from a map
+        principled.inputs['Subsurface'].default_value = 0.1
+
         self.mat_links.new(principled.outputs['BSDF'],
                            output.inputs['Surface'])
 
