@@ -118,6 +118,17 @@ def setup_scene(scene):
     bpy.ops.mesh.primitive_plane_add(radius=5)
     plane = bpy.context.selected_objects[0]
 
+    scene.world.use_nodes = True
+    world_nodes = scene.world.node_tree.nodes
+    world_links = scene.world.node_tree.links
+
+    env_map = world_nodes.new('ShaderNodeTexEnvironment')
+    env_map.location = world_nodes['Background'].location
+    env_map.location.x -= 250
+
+    world_links.new(env_map.outputs['Color'],
+                    world_nodes['Background'].inputs['Color'])
+
 
 def setup_render(scene):
     """Setup rendering settings."""
