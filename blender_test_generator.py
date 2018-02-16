@@ -15,6 +15,7 @@ Requires:
 """
 
 import os
+import glob
 import bpy
 
 
@@ -31,6 +32,7 @@ class Asset():
         self.name = os.path.splitext(os.path.basename(filepath))[0]
 
         self.make_material()
+        self.set_textures()
 
     def make_material(self):
 
@@ -51,6 +53,22 @@ class Asset():
 
         self.mat_links.new(principled.outputs['BSDF'],
                            output.inputs['Surface'])
+
+    def load_image(self, image):
+        pass
+
+    def make_image_node(self, image_path):
+        pass
+
+    def set_textures(self):
+
+        folder = os.path.dirname(self.filepath) + os.path.sep
+        textures = glob.glob(folder + self.name + '*.jpg')
+
+        if not any(textures):
+            print('[!] No textures found!')
+        else:
+            [self.make_image_node(image) for image in textures]
 
 
 def path(*paths):
