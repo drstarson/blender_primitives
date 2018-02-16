@@ -57,10 +57,16 @@ class Asset():
         self.mat_links.new(principled.outputs['BSDF'],
                            output.inputs['Surface'])
 
+        self.principled = principled
+
     def make_image_node(self, image_path):
         """Make an image node."""
 
         image = bpy.data.images.load(image_path, check_existing=False)
+        node_image = self.mat_nodes.new(type='ShaderNodeTexImage')
+        node_image.image = image
+
+        return node_image
 
     def set_textures(self):
         """Find textures in the OBJ file's folder and add to material."""
@@ -73,6 +79,7 @@ class Asset():
             return
 
         for tex in textures:
+
             # Check suffix
             name = os.path.splitext((os.path.basename(tex)))[0].lower()
 
@@ -83,6 +90,12 @@ class Asset():
             # Diffuse
             else:
                 node = self.make_image_node(tex)
+                node.location = self.principled.location
+                node.location.x -= 250
+                node.name = 'Diffuse Map'
+
+                self.mat_links.new(node.outputs['Color'],
+                                   self.principled.inputs['Base Color'])
 
 
 def path(*paths):
