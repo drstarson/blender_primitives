@@ -130,6 +130,17 @@ def setup_compositing(scene):
     """Setup compositing nodes."""
 
     scene.use_nodes = True
+    comp_nodes = scene.node_tree.nodes
+    comp_links = scene.node_tree.links
+
+    lens_distortion = comp_nodes.new('CompositorNodeLensdist')
+    lens_distortion.inputs['Dispersion'].default_value = 0.001
+
+    comp_links.new(comp_nodes['Render Layers'].outputs['Image'],
+                   lens_distortion.inputs['Image'])
+
+    comp_links.new(lens_distortion.outputs['Image'],
+                   comp_nodes['Composite'].inputs['Image'])
 
 
 if __name__ == "__main__":
