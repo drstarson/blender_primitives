@@ -73,8 +73,19 @@ class Asset():
 
         if not any(textures):
             print('[!] No textures found!')
-        else:
-            [self.make_image_node(image) for image in textures]
+            return
+
+        for tex in textures:
+            # Check suffix
+            name = os.path.splitext((os.path.basename(tex)))[0].lower()
+
+            # Ambient Occlusion map
+            if name.endswith('_ao'):
+                pass
+
+            # Diffuse
+            else:
+                node = self.make_image_node(tex)
 
 
 def path(*paths):
