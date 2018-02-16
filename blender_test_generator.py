@@ -57,13 +57,10 @@ class Asset():
         self.mat_links.new(principled.outputs['BSDF'],
                            output.inputs['Surface'])
 
-    def load_image(self, image_path):
-        """Load an image into Blender."""
-        pass
-
-    def make_image_node(self, image):
+    def make_image_node(self, image_path):
         """Make an image node."""
-        pass
+
+        image = bpy.data.images.load(image_path, check_existing=False)
 
     def set_textures(self):
         """Find textures in the OBJ file's folder and add to material."""
