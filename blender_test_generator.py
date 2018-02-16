@@ -20,10 +20,11 @@ import bpy
 
 
 class Asset():
+    """Represents an imported object and it's material and textures."""
 
     def __init__(self, filepath):
+        """Import OBJ file and create asset object."""
 
-        # Import OBJ file
         self.filepath = filepath
         print('- Importing OBJ file: {}'.format(filepath))
 
@@ -31,10 +32,12 @@ class Asset():
         self.object = bpy.context.selected_objects[0]
         self.name = os.path.splitext(os.path.basename(filepath))[0]
 
+        # Make material
         self.make_material()
         self.set_textures()
 
     def make_material(self):
+        """Create a new emtpy material using the principled shader."""
 
         # Make a new material
         self.material = bpy.data.materials.new(self.name)
@@ -54,13 +57,16 @@ class Asset():
         self.mat_links.new(principled.outputs['BSDF'],
                            output.inputs['Surface'])
 
-    def load_image(self, image):
+    def load_image(self, image_path):
+        """Load an image into Blender."""
         pass
 
-    def make_image_node(self, image_path):
+    def make_image_node(self, image):
+        """Make an image node."""
         pass
 
     def set_textures(self):
+        """Find textures in the OBJ file's folder and add to material."""
 
         folder = os.path.dirname(self.filepath) + os.path.sep
         textures = glob.glob(folder + self.name + '*.jpg')
