@@ -75,6 +75,9 @@ def setup_render(scene):
     scene.render.engine = 'CYCLES'
     scene.render.resolution_percentage = 100
 
+    scene.view_settings.view_transform = 'Filmic'
+    scene.view_settings.look = 'Filmic - Base Contrast'
+
 
 def setup_compositing(scene):
     """Setup compositing nodes."""
