@@ -84,7 +84,9 @@ def path(*paths):
 
 def setup_scene(scene):
     """Setup world and lighting for the scene."""
-    pass
+
+    bpy.ops.mesh.primitive_plane_add(radius=5)
+    plane = bpy.context.selected_objects[0]
 
 
 def setup_render(scene):
@@ -108,6 +110,7 @@ if __name__ == "__main__":
     filepath = path('assets', 'objects', 'pumpkin', 'pumpkin.obj')
     scene = bpy.context.scene
 
+    setup_scene(scene)
     setup_render(scene)
     setup_compositing(scene)
 
