@@ -35,7 +35,7 @@ def path(*paths):
     if bpy.app.background:
         base = os.path.dirname(__file__)
     else:
-        base = os.path.dirname(bpy.path.abspath('//../'))
+        base = os.path.dirname(bpy.path.abspath('//'))
 
     return os.path.join(base, *paths)
 
