@@ -34,11 +34,23 @@ class Asset():
 
     def make_material(self):
 
+        # Make a new material
         self.material = bpy.data.materials.new(self.name)
         self.material.use_nodes = True
         self.mat_nodes = self.material.node_tree.nodes
+        self.mat_links = self.material.node_tree.links
 
         self.object.data.materials[0] = self.material
+
+        # Switch diffuse to principled shader
+        location = self.mat_nodes['Diffuse BSDF'].location.copy()
+        output = self.mat_nodes['Material Output']
+        self.mat_nodes.remove(self.mat_nodes['Diffuse BSDF'])
+        principled = self.mat_nodes.new('ShaderNodeBsdfPrincipled')
+        principled.location = location
+
+        self.mat_links.new(principled.outputs['BSDF'],
+                           output.inputs['Surface'])
 
 
 def path(*paths):
