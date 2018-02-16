@@ -28,12 +28,17 @@ class Asset():
 
         bpy.ops.import_scene.obj(filepath=filepath)
         self.object = bpy.context.selected_objects[0]
+        self.name = os.path.splitext(os.path.basename(filepath))[0]
 
-        # Build material
-
+        self.make_material()
 
     def make_material(self):
-        pass
+
+        self.material = bpy.data.materials.new(self.name)
+        self.material.use_nodes = True
+        self.mat_nodes = self.material.node_tree.nodes
+
+        self.object.data.materials[0] = self.material
 
 
 def path(*paths):
