@@ -20,10 +20,17 @@ import bpy
 
 class Asset():
 
-    def __init__(self, path):
+    def __init__(self, filepath):
+
         # Import OBJ file
+        self.filepath = filepath
+        print('- Importing OBJ file: {}'.format(filepath))
+
+        bpy.ops.import_scene.obj(filepath=filepath)
+        self.object = bpy.context.selected_objects[0]
+
         # Build material
-        pass
+
 
     def make_material(self):
         pass
@@ -57,4 +64,10 @@ def setup_compositing(scene):
 
 
 if __name__ == "__main__":
-    pass
+
+    filepath = path('assets', 'objects', 'pumpkin', 'pumpkin.obj')
+
+    try:
+        pumpkin = Asset(filepath)
+    except (RuntimeError, FileNotFoundError):
+        print('[!] Can\'t find file {}!'.format(filepath))
