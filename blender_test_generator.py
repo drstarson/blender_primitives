@@ -173,6 +173,10 @@ def setup_render(scene):
     scene.view_settings.view_transform = 'Filmic'
     scene.view_settings.look = 'Filmic - Base Contrast'
 
+    scene.render.filepath = '//render.jpg'
+    scene.render.image_settings.file_format = 'JPEG'
+    scene.render.image_settings.color_mode = 'RGB'
+
 
 def setup_compositing(scene):
     """Setup compositing nodes."""
