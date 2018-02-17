@@ -142,7 +142,7 @@ def setup_scene(scene):
     """Setup world and lighting for the scene."""
 
     # Setup test table
-    bpy.ops.mesh.primitive_plane_add(radius=5)
+    bpy.ops.mesh.primitive_plane_add(radius=6)
     plane = bpy.context.selected_objects[0]
 
     # Setup camera
