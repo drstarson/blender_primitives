@@ -141,9 +141,21 @@ def path(*paths):
 def setup_scene(scene):
     """Setup world and lighting for the scene."""
 
+    # Setup test table
     bpy.ops.mesh.primitive_plane_add(radius=5)
     plane = bpy.context.selected_objects[0]
 
+    # Setup camera
+    if not scene.camera:
+        camera = bpy.data.cameras.new("Camera")
+        camera_obj = bpy.data.objects.new("Camera", camera)
+        scene.objects.link(camera_obj)
+        scene.camera = camera_obj
+
+    scene.camera.location = (-1.23, -2.36, 2.18)
+    scene.camera.rotation_euler = (1, 0, -0.5)
+
+    # Setup world lighting
     scene.world.use_nodes = True
     world_nodes = scene.world.node_tree.nodes
     world_links = scene.world.node_tree.links
