@@ -208,3 +208,8 @@ if __name__ == "__main__":
         pumpkin = Asset(filepath)
     except (RuntimeError, FileNotFoundError):
         print('[!] Can\'t find file {}!'.format(filepath))
+
+    if bpy.app.background:
+        # Only render if called from the command line (makes
+        # testing easier)
+        bpy.ops.render.render(write_still=True)
