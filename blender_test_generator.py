@@ -163,6 +163,12 @@ def setup_render(scene):
     scene.render.engine = 'CYCLES'
     scene.render.resolution_percentage = 100
 
+    # This value will depend on the HDRi/lighting and the amount of SSS
+    # used. More complicated lighting or higher SSS will take more samples
+    # to produce a clean render
+    scene.cycles.samples = 250
+    scene.cycles.preview_samples = 250
+
     scene.view_settings.view_transform = 'Filmic'
     scene.view_settings.look = 'Filmic - Base Contrast'
 
