@@ -92,8 +92,8 @@ class Asset():
 
         # Organize by type
         tex_types = [map_type(t) for t in found_textures]
-
         textures = dict(zip(tex_types, found_textures))
+
         print('Found textures {}'.format(textures))
 
         # Make diffuse image node
@@ -119,13 +119,12 @@ class Asset():
             self.mat_links.new(diffuse.outputs['Color'], mix.inputs['Color1'])
             self.mat_links.new(ao.outputs['Color'], mix.inputs['Color2'])
             self.mat_links.new(mix.outputs['Color'],
-                            self.principled.inputs['Base Color'])
+                               self.principled.inputs['Base Color'])
 
         # Otherwise, we can just plug the diffuse into the principled shader
         else:
             self.mat_links.new(diffuse.outputs['Color'],
-                                self.principled.inputs['Base Color'])
-
+                               self.principled.inputs['Base Color'])
 
 
 def path(*paths):
