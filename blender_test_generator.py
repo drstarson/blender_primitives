@@ -74,31 +74,58 @@ class Asset():
     def set_textures(self):
         """Find textures in the OBJ file's folder and add to material."""
 
-        folder = os.path.dirname(self.filepath) + os.path.sep
-        textures = glob.glob(folder + self.name + '*.jpg')
+        def map_type(texture):
+            """Return type of texture by finding its suffix."""
 
-        if not any(textures):
+            name = os.path.splitext((os.path.basename(texture)))[0].lower()
+            suffix = name.partition('_')[2]
+
+            return suffix or 'diffuse'
+
+        # Find textures
+        folder = os.path.dirname(self.filepath) + os.path.sep
+        found_textures = glob.glob(folder + self.name + '*.jpg')
+
+        if not any(found_textures):
             print('[!] No textures found!')
             return
 
-        for tex in textures:
+        # Organize by type
+        tex_types = [map_type(t) for t in found_textures]
 
-            # Check suffix
-            name = os.path.splitext((os.path.basename(tex)))[0].lower()
+        textures = dict(zip(tex_types, found_textures))
+        print('Found textures {}'.format(textures))
 
-            # Ambient Occlusion map
-            if name.endswith('_ao'):
-                pass
+        # Make diffuse image node
+        diffuse = self.make_image_node(textures['diffuse'])
+        diffuse.location = self.principled.location
+        diffuse.location.x -= 750
+        diffuse.name = 'Diffuse Map'
 
-            # Diffuse
-            else:
-                node = self.make_image_node(tex)
-                node.location = self.principled.location
-                node.location.x -= 250
-                node.name = 'Diffuse Map'
+        # Ambient Occlusion has to be mixed with the diffuse map
+        if 'ao' in textures:
+            ao = self.make_image_node(textures['ao'])
+            ao.location = self.principled.location
+            ao.location.x -= 500
+            ao.name = 'Ambient Occlusion Map'
 
-                self.mat_links.new(node.outputs['Color'],
-                                   self.principled.inputs['Base Color'])
+            mix = self.mat_nodes.new('ShaderNodeMixRGB')
+            mix.name = 'Apply Ambient Occlusion'
+            mix.blend_type = 'MULTIPLY'
+            mix.location = self.principled.location
+            mix.location.x -= 250
+            mix.inputs['Fac'].default_value = 1
+
+            self.mat_links.new(diffuse.outputs['Color'], mix.inputs['Color1'])
+            self.mat_links.new(ao.outputs['Color'], mix.inputs['Color2'])
+            self.mat_links.new(mix.outputs['Color'],
+                            self.principled.inputs['Base Color'])
+
+        # Otherwise, we can just plug the diffuse into the principled shader
+        else:
+            self.mat_links.new(diffuse.outputs['Color'],
+                                self.principled.inputs['Base Color'])
+
 
 
 def path(*paths):
