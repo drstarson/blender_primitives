@@ -153,8 +153,9 @@ def setup_scene(scene):
     env_map.location = world_nodes['Background'].location
     env_map.location.x -= 250
 
-    world_links.new(env_map.outputs['Color'],
-                    world_nodes['Background'].inputs['Color'])
+    if False:
+        world_links.new(env_map.outputs['Color'],
+                        world_nodes['Background'].inputs['Color'])
 
 
 def setup_render(scene):
