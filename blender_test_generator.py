@@ -141,16 +141,19 @@ def path(*paths):
 def setup_scene(scene):
     """Setup world and lighting for the scene."""
 
+    # Clean up scene (remove default cube, camera, etc.)
+    for obj in bpy.data.objects:
+        bpy.data.objects.remove(bpy.data.objects[obj.name], do_unlink=True)
+
     # Setup test table
     bpy.ops.mesh.primitive_plane_add(radius=6)
     plane = bpy.context.selected_objects[0]
 
     # Setup camera
-    if not scene.camera:
-        camera = bpy.data.cameras.new("Camera")
-        camera_obj = bpy.data.objects.new("Camera", camera)
-        scene.objects.link(camera_obj)
-        scene.camera = camera_obj
+    camera = bpy.data.cameras.new("Camera")
+    camera_obj = bpy.data.objects.new("Camera", camera)
+    scene.objects.link(camera_obj)
+    scene.camera = camera_obj
 
     scene.camera.location = (-1.23, -2.36, 2.18)
     scene.camera.rotation_euler = (1, 0, -0.5)
