@@ -208,7 +208,7 @@ def setup_compositing(scene):
     comp_links = scene.node_tree.links
 
     lens_distortion = comp_nodes.new('CompositorNodeLensdist')
-    lens_distortion.inputs['Dispersion'].default_value = 0.001
+    lens_distortion.inputs['Dispersion'].default_value = 0.01
 
     comp_links.new(comp_nodes['Render Layers'].outputs['Image'],
                    lens_distortion.inputs['Image'])
