@@ -188,7 +188,7 @@ def setup_render(scene):
     scene.cycles.preview_samples = 250
 
     scene.view_settings.view_transform = 'Filmic'
-    scene.view_settings.look = 'Filmic - Base Contrast'
+    scene.view_settings.look = 'Filmic - Medium High Contrast'
 
     scene.render.filepath = '//render.jpg'
     scene.render.image_settings.file_format = 'JPEG'
