@@ -191,6 +191,8 @@ def setup_render(scene):
     scene.render.image_settings.file_format = 'JPEG'
     scene.render.image_settings.color_mode = 'RGB'
 
+    scene.render.dither_intensity = 1
+
 
 def setup_compositing(scene):
     """Setup compositing nodes."""
