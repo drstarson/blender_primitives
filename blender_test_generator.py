@@ -196,6 +196,9 @@ def setup_render(scene):
 
     scene.render.dither_intensity = 1
 
+    scene.world.cycles.sample_as_light = True
+    scene.render.layers[0].cycles.use_denoising = True
+
 
 def setup_compositing(scene):
     """Setup compositing nodes."""
